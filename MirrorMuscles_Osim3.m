@@ -12,9 +12,9 @@ import org.opensim.modeling.*
 % 					</WrapObjectSet>
 % If it doesn't, add it to the body (below the "VisualObject" set and above
 % the </Body> tag)
-
-modelPath = 'Marasuchus\Marasuchus_Model8muscles.osim';% Many models in 'C:\Users\dpolet\Dropbox\Osim Models Private\'
-modelNewPath = 'Marasuchus\Marasuchus_Model8muscles_Mirror_noWrapDisp.osim';% leave blank to make new file in same directory as modelPath with "_Mirror" appended.
+mainDir = 'C:\Users\dpolet\Dropbox\Osim Models Private\';
+modelPath = [mainDir,'Marasuchus\Marasuchus_Model8muscles.osim'];% Many models in 'C:\Users\dpolet\Dropbox\Osim Models Private\'
+modelNewPath = [mainDir,'Marasuchus\Marasuchus_Model8muscles_Mirror_noWrapDisp.osim'];% leave blank to make new file in same directory as modelPath with "_Mirror" appended.
 modelNewName = 'Marasuchus_LRmuscles'; % leave blank to preserve name from old model
 parameterFile = '';
 saveParameters = false;
