@@ -1,13 +1,12 @@
 clear;clc
 import org.opensim.modeling.*
 
-modelPath = 'C:\Users\dpolet\Dropbox\Osim Models Private\Mussaurus\Mussaurus_Base_Model4-4.2.osim';% Many models in 'C:\Users\dpolet\Dropbox\Osim Models Private\'
+modelPath = 'C:\Users\dpolet\Dropbox\Osim Models Private\Mussaurus\Mussaurus_Base_Model4-4.2.osim';
 modelNewPath = '';% leave blank to make new file in same directory as modelPath with "_Mirror" appended.
 modelNewName = 'Mussaurus_LRmuscles'; % leave blank to preserve name from old model
 parameterFile = '';
 saveParameters = true;
 loadParameters = false;
-maxWrapObjects = 20;
 
 defaultSymAxis = [-1 -1 -1];
 bodySymAxis.Body = [1 -1 1];

@@ -18,7 +18,7 @@ modelNewPath = [mainDir,'Marasuchus\Marasuchus_Model8muscles_Mirror_noWrapDisp.o
 modelNewName = 'Marasuchus_LRmuscles'; % leave blank to preserve name from old model
 parameterFile = '';
 saveParameters = false;
-loadParameters = true;
+loadParameters = false;
 setWrapDisplay = []; % set display_preference for all wrap objects to the given number (0-4). If number is empty ([]), the display preference will not be changed.
 
 defaultSymAxis = [-1 -1 -1];
