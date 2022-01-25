@@ -36,3 +36,21 @@ Midline bodies are treated differently. Here, muscles and wrap objects need to b
 To save these parameters, set `saveParameters` to true. To load them, set `loadParameters` to true. By default, the script saves the parameters to `<model path>_MirrorParameters.mat`
 
 Email questions to dpolet@rvc.ac.uk
+
+## Note for Maya2OpenSim users
+
+**Prep the OSIM model**. Models from Maya2OpenSim lack blank wrap object
+sets, which are necessary for adding wrap objects to a body with the Matlab API.
+
+Open the model in a text editor (Notepad ++ recommended). For each left-
+side body, ensure that the following code appears:
+
+```xml
+		<WrapObjectSet>
+			<objects /> 
+        	<groups />
+		</WrapObjectSet>
+```
+
+If it doesn't, add it to the body (below the "VisualObject" set and above
+the `</Body>` tag)
