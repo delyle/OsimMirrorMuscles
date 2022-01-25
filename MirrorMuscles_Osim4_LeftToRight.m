@@ -1,19 +1,27 @@
 clear;clc
 import org.opensim.modeling.*
 
-modelPath = '~/Dropbox/Osim Models Private/Human/Human_model_MirroredMuscles.osim';
+modelPath = '/Users/delyle/Dropbox/Osim Models Private/Human/Human_model.osim';
 modelNewPath = '';% leave blank to make new file in same directory as modelPath with "_Mirror" appended.
 modelNewName = 'Human_model_NewBody_LRmuscles'; % leave blank to preserve name from old model
 parameterFile = '';
 saveParameters = true;
 loadParameters = false;
 
-defaultSymAxis = [-1 -1 1];
+defaultSymAxis = [-1 1 1];
 bodySymAxis.Pelvis = [-1 1 1];
 midlineBodyList = {'Pelvis'};
-
+saveDiary = true;
 
 %%
+if saveDiary
+    Seps = strfind(modelPath,filesep);
+    modelDir = modelPath(1:Seps(end));
+    modelFileName = modelPath(Seps(end)+1:end-5);
+    diary([modelDir,filesep,modelFileName,'_log.txt'])
+    diary on
+end
+
 import org.opensim.modeling.*
 if isempty(modelNewPath)
     modelNewPath = [strrep(modelPath,'.osim',''),'_Mirror.osim'];
@@ -47,7 +55,7 @@ newWrapObjects = struct();
 nBodies = bodySet.getSize;
 for ii = 0:nBodies-1
     disp(' ')
-    body = Body().safeDownCast(bodySet.getPropertyByIndex(1).updValueAsObject(ii));
+    body = Body.safeDownCast(bodySet.getPropertyByIndex(1).updValueAsObject(ii));
     bodyName = cell2mat(body.getName.string);
     
     isMidlineBody = false;
@@ -55,11 +63,11 @@ for ii = 0:nBodies-1
        isMidlineBody = true; 
        disp([bodyName,' identified as Midline Body'])
     elseif strcmpi(bodyName(1),'R')
-        isMidlineBody = false;
         disp([bodyName,' identified as Rightside Body'])
+        continue % skip to the next iteration
     elseif strcmpi(bodyName(1),'L')
+        isMidlineBody = false;
          disp([bodyName,' identified as Leftside Body'])
-         continue % skip to the next iteration
     else
         warning([bodyName,' could not be identified as Midline, Right or Left',...
             newline,'Interpreting as midline body'])
@@ -97,11 +105,11 @@ for ii = 0:nBodies-1
     for i = 0:nWrapObjects-1
         wrapObj = wrapSetArray.getValueAsObject(i);
         wrapType = cell2mat(wrapObj.getConcreteClassName.string);
-        wrapObj = org.opensim.modeling.(wrapType)().safeDownCast(wrapObj); % gets wrap object as derived class
+        wrapObj = org.opensim.modeling.(wrapType).safeDownCast(wrapObj); % gets wrap object as derived class
         
         wrapObj2 = wrapObj.clone();% duplicate wrap object
         nameOld = wrapObj.getName.string;
-        nameNew = ['r',nameOld{1}(2:end)]; % set as "left"
+        nameNew = ['r',nameOld{1}(2:end)]; % set as "right"
         wrapObj2.setName(nameNew);
         
         transOld = wrapObj.get_translation().string;
@@ -196,7 +204,7 @@ for ii = 0:nMuscles-1
     nWraps = geomPath.getWrapSet.getSize;
     wrapSet = geomPath.updWrapSet;
     for i = 0:nWraps-1
-        pathWrap = PathWrap().safeDownCast(wrapSet.getPropertyByName('objects').getValueAsObject(i));
+        pathWrap = PathWrap.safeDownCast(wrapSet.getPropertyByName('objects').getValueAsObject(i));
         pathWrapName = cell2mat(pathWrap.get_wrap_object.string);
         pathWrapNewName = ['r',pathWrapName(2:end)];
         
@@ -223,5 +231,7 @@ for ii = 0:nMuscles-1
 end
 %% Save the model to a file
 model.initSystem(); % check model consistency
+model.finalizeConnections();
 model.print(modelNewPath);
 disp([modelNewPath,' printed'])
+diary off
