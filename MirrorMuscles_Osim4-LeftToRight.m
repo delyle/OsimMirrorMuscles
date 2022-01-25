@@ -1,21 +1,20 @@
 clear;clc
 import org.opensim.modeling.*
 
-modelPath = 'C:\Users\dpolet\Dropbox\Osim Models Private\Mussaurus\Mussaurus_Base_Model4-4.2.osim';
+modelPath = '~/Dropbox/Osim Models Private/Human/Human_model_MirroredMuscles.osim';
 modelNewPath = '';% leave blank to make new file in same directory as modelPath with "_Mirror" appended.
-modelNewName = 'Mussaurus_LRmuscles'; % leave blank to preserve name from old model
+modelNewName = 'Human_model_NewBody_LRmuscles'; % leave blank to preserve name from old model
 parameterFile = '';
 saveParameters = true;
 loadParameters = false;
 
-defaultSymAxis = [-1 -1 -1];
-bodySymAxis.Body = [1 -1 1];
-bodySymAxis.Proximal_tail = [1 1 -1];
-bodySymAxis.Distal_tail = [1 1 -1];
-midlineBodyList = {'Body','Proximal_tail','Distal_tail'};
+defaultSymAxis = [-1 -1 1];
+bodySymAxis.Pelvis = [-1 1 1];
+midlineBodyList = {'Pelvis'};
 
 
 %%
+import org.opensim.modeling.*
 if isempty(modelNewPath)
     modelNewPath = [strrep(modelPath,'.osim',''),'_Mirror.osim'];
 end
